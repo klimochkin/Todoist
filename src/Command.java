@@ -92,12 +92,30 @@ public class Command {
         obj.setDescription(buffer.readLine());
 
 // Важность
-        System.out.print("Важность (целое число в диапазоне 1-10) >>");
-        obj.setPriority(Integer.parseInt(buffer.readLine()));
+        System.out.print("Важность (целое число в диапазоне 1-5) >>");
+
+        Pattern p = Pattern.compile("[1-5]");
+        String str = buffer.readLine();
+
+        while (!p.matcher(str).matches()){
+            System.out.println("Некорректное значение!");
+            System.out.print("Важность (целое число в диапазоне 1-5) >>");
+            str = buffer.readLine();
+        }
+        obj.setPriority(Integer.parseInt(str));
 
 // Срок
         System.out.print("Срок (количество дней на выполнение) >>");
-        int n = Integer.parseInt(buffer.readLine());
+
+        p = Pattern.compile("[1-9]+");
+        str = buffer.readLine();
+
+        while (!p.matcher(str).matches()){
+            System.out.println("Некорректное значение! Допустимо только натуральное число");
+            System.out.print("Срок (количество дней на выполнение) >>");
+            str = buffer.readLine();
+        }
+        int n = Integer.parseInt(str);
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Calendar currantDate = GregorianCalendar.getInstance();
@@ -111,6 +129,7 @@ public class Command {
 // Дата завершения
         obj.setComplete("");
 
+        System.out.println("Задача добавлена");
         return obj;
     }
 
@@ -149,8 +168,8 @@ public class Command {
             System.out.println("\t Срок до: \t- " +  task.getDeadline());
             System.out.println("\t Статус: \t- " +  task.getStatus());
             System.out.println("\t Завершена: - " +  task.getComplete() );
+            System.out.println("----------------------------------------------------------");
         }
-
     }
 
     //==========================================================================================================================================
