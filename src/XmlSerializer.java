@@ -15,17 +15,14 @@ public class XmlSerializer implements IObjectSerializer {
         if (!file.exists() || file.length() == 0) {
             return new ContainerTask();
         }
-            try {
-                // создаем объект JAXBContext - точку входа для JAXB
+        try {
+            JAXBContext context = JAXBContext.newInstance(ContainerTask.class);
+            Unmarshaller unmarshaller = context.createUnmarshaller();
 
-                JAXBContext context = JAXBContext.newInstance(ContainerTask.class);
-                Unmarshaller unmarshaller = context.createUnmarshaller();
-
-                return (ContainerTask) unmarshaller.unmarshal(file);
-            } catch (JAXBException e) {
-                e.printStackTrace();
-            }
-
+            return (ContainerTask) unmarshaller.unmarshal(file);
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
         return new ContainerTask();
     }
 
@@ -35,10 +32,9 @@ public class XmlSerializer implements IObjectSerializer {
         try {
             JAXBContext context = JAXBContext.newInstance(ContainerTask.class);
             Marshaller marshaller = context.createMarshaller();
-            // устанавливаем флаг для читабельного вывода XML в JAXB
+
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
-            // маршаллинг объекта в файл
             marshaller.marshal(objTaskList, file);
         } catch (JAXBException e) {
             e.printStackTrace();

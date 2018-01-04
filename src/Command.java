@@ -164,6 +164,8 @@ public class Command {
         int idTask = Integer.parseInt(str);
 
         this.objTaskList.getTaskList().removeIf(x->x.getId()==idTask);
+
+        writeObject();
     }
 
     //==========================================================================================================================================

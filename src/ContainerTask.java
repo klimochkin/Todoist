@@ -20,10 +20,6 @@ public class ContainerTask {
         this.taskList = new LinkedList<>();
     }
 
-   // public void setTaskList(List<TaskData> taskList) {
-    //    this.taskList = taskList;
-  //  }
-
     public void addTask(TaskData task){
         int size = this.taskList.size();
         if (size != 0)
