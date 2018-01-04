@@ -20,17 +20,16 @@ public class Interpreter {
         BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
 
         String str;
-        String[] strSplit = null;
+        //String[] strSplit = null;
+
         Command com = new Command(new XmlSerializer());
 
         do {
             System.out.print(">>");
             str = buffer.readLine();
 
-            if (str.lastIndexOf(" ") != -1) {
-                strSplit = str.split(" ");
-                str = strSplit[0];
-            }
+            String[] strSplit = str.split(" {1,}");
+            str = strSplit[0];
 
             switch(str) {
                 case "help":
@@ -40,22 +39,27 @@ public class Interpreter {
                     com.insertTask();
                     break;
                 case "complete":
-                    if (strSplit != null)
+                    if (strSplit.length > 1)
                         com.complete(strSplit[1]);
                     else
                         System.out.println("Не указан идефикатор задачи!");
                     break;
                 case "delete":
-               //    com.delete();
+                    if (strSplit.length > 1)
+                        com.delete(strSplit[1]);
+                    else
+                        System.out.println("Не указан идефикатор задачи!");
                     break;
                 case "list":
-                //    com.list();
+                    com.list();
                     break;
                 case "print":
-                //    com.PrintXML();
+                    com.printXML();
                     break;
                 case "test":
                     com.test();
+                    break;
+                case "stop":
                     break;
                 default:
                     System.out.println("Команда не найдена");

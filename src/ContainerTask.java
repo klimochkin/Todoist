@@ -12,21 +12,27 @@ public class ContainerTask {
 
    @XmlElementWrapper(name = "ToDoList")
    private List<TaskData> taskList;
+  // private int id;
 
    public List<TaskData> getTaskList() { return taskList; }
 
     public ContainerTask() {
-        this.taskList = new LinkedList();
+        this.taskList = new LinkedList<>();
     }
-
 
    // public void setTaskList(List<TaskData> taskList) {
     //    this.taskList = taskList;
   //  }
 
     public void addTask(TaskData task){
+        int size = this.taskList.size();
+        if (size != 0)
+            task.setId(this.taskList.get(size - 1).getId() + 1);
+        else
+            task.setId(1);
+
         taskList.add(task);
+        if(task.getId()==-1)
+            System.out.println("не удалось присвоить идефикатор");
     }
-
-
 }

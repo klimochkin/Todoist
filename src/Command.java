@@ -25,8 +25,7 @@ public class Command {
    }
 
    public void readObject() {
-     //  if(new File("C:/Temp/test.xml").exists())
-           this.objTaskList = objectSerializer.readObject(this.file);
+       this.objTaskList = objectSerializer.readObject(this.file);
    }
 
    public void writeObject() {
@@ -41,7 +40,6 @@ public class Command {
         System.out.println("print - вывести содержимое XML");
         System.out.println("complete id - пометить как выполенную");
         System.out.println("______________________");
-        return;
     }
 
     //==========================================================================================================================================
@@ -49,43 +47,33 @@ public class Command {
     void printXML() throws JAXBException {
         JAXBContext context = JAXBContext.newInstance(ContainerTask.class);
 
-        Unmarshaller unmarshaller = context.createUnmarshaller();
         Marshaller marshaller = context.createMarshaller();
 
         StringWriter sw = new StringWriter();
-        ContainerTask el = (ContainerTask) unmarshaller.unmarshal(new File("C:/Temp/test.xml"));;
 
-        // устанавливаем флаг для читабельного вывода XML в JAXB
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        marshaller.marshal(el, sw);
+        marshaller.marshal(this.objTaskList, new StringWriter());
 
         String s = sw.toString();
         System.out.println(s);
         System.out.println("=============================================================");
-        //  return;
+
     }
 
     //==========================================================================================================================================
 
     void insertTask() throws JAXBException, IOException, ParseException {
 
-        int size = this.objTaskList.getTaskList().size();
-
-        if (size != 0)
-            this.objTaskList.addTask(newTask(this.objTaskList.getTaskList().get(size - 1).getId() + 1));
-        else
-            this.objTaskList.addTask(newTask(1));
-
+        this.objTaskList.addTask(newTask());
         writeObject();
 
-     //   System.out.println("Клиент добавлен со значением ID = " +this.objTaskList.getTaskList().get(size-1).getId());
         System.out.println("=============================================================");
     }
 
 //===============================================================================================================
 
 
-    TaskData newTask(int id) throws IOException, ParseException {
+    private TaskData newTask() throws IOException, ParseException {
 
         TaskData obj = new TaskData();
         BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
@@ -93,7 +81,7 @@ public class Command {
         System.out.println("Заполните данные по задаче: ");
 
 // id
-        obj.setId(id);
+        obj.setId(-1);
 
 // Заголовок
         System.out.print("Заголовок >>");
@@ -130,9 +118,9 @@ public class Command {
 
     void complete (String str){
 
-        Pattern p = Pattern.compile("(-|\\+)?[1-9]+");
+        Pattern p = Pattern.compile("[1-9]+");
         if( !p.matcher(str).matches()) {
-            System.out.println("ID должен быть числом!");
+            System.out.println("Индефикатор должен быть натуральным числом!");
             return;
         }
         int idTask = Integer.parseInt(str);
@@ -144,7 +132,7 @@ public class Command {
             if(task.getId() == idTask){
                 task.setStatus(TaskData.eStatus.done);
                 task.setComplete(formatter.format(finalDate));
-                System.out.println("Задача "+idTask+" помечена как \"выполненая\"");
+                System.out.println("Задача "+idTask+" помечена как \"выполненная\"");
                 writeObject();
                 return;
             }
@@ -153,8 +141,33 @@ public class Command {
     }
 
     //==========================================================================================================================================
+    void list (){
+        for (TaskData task : this.objTaskList.getTaskList()) {
+            System.out.println(" №"+task.getId()+"\t - "+task.getCaption());
+            System.out.println("\t Описание:\t- " +  task.getDescription());
+            System.out.println("\t Важность: \t- " +  task.getPriority());
+            System.out.println("\t Срок до: \t- " +  task.getDeadline());
+            System.out.println("\t Статус: \t- " +  task.getStatus());
+            System.out.println("\t Завершена: - " +  task.getComplete() );
+        }
 
-    void test (){
+    }
+
+    //==========================================================================================================================================
+    void delete(String str) {
+
+        Pattern p = Pattern.compile("[1-9]+");
+        if( !p.matcher(str).matches()) {
+            System.out.println("Индефикатор должен быть натуральным числом!");
+            return;
+        }
+        int idTask = Integer.parseInt(str);
+
+        this.objTaskList.getTaskList().removeIf(x->x.getId()==idTask);
+    }
+
+    //==========================================================================================================================================
+        void test (){
 
         //  System.out.println("Выберете статус задачи:");
         //  System.out.println("1. Новая задача");
