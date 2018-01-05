@@ -265,16 +265,12 @@ public class Command {
                 break;
             }
         }
-        if(obj==null){
-            System.out.println("Задачи с таким номером не существует");
-            return;
-        }
 
-        System.out.println("Редактирование полей задачи №"+id+". Для пропуска нажмите \"Enter\"");
-
-        BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
-        String str;
         if(obj!=null) {
+            System.out.println("Редактирование полей задачи №"+id+". Для пропуска нажмите \"Enter\"");
+
+            BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
+            String str;
 // Заголовок
             System.out.print("Заголовок >>");
             str = buffer.readLine();
@@ -366,6 +362,10 @@ public class Command {
             writeObject();
             System.out.println("Задача отредактирована");
 
+        }
+        else {
+            System.out.println("Задачи с таким номером не существует");
+            return;
         }
     }
 }
