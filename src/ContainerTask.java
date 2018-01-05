@@ -28,6 +28,8 @@ public class ContainerTask {
             task.setId(1);
 
         taskList.add(task);
+
+        System.out.println("Добавлена задача №"+task.getId());
         if(task.getId()==-1)
             System.out.println("не удалось присвоить идефикатор");
     }

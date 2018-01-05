@@ -35,8 +35,8 @@ public class Interpreter {
                 case "help":
                     com.help();
                     break;
-                case "insert":
-                    com.insertTask();
+                case "new":
+                    com.addNewTask();
                     break;
                 case "complete":
                     if (strSplit.length > 1)
@@ -51,13 +51,21 @@ public class Interpreter {
                         System.out.println("Не указан идефикатор задачи!");
                     break;
                 case "list":
-                    com.list();
+                    if (strSplit.length == 1)
+                        com.list();
+                    if (strSplit.length == 3)
+                        com.findList(strSplit[1], strSplit[2]);
+                    if (strSplit.length != 1 && strSplit.length != 3)
+                        System.out.println("Не указан параметр");
+                    break;
+                case "edit":
+                    if (strSplit.length > 1)
+                        com.edit(strSplit[1]);
+                    else
+                        System.out.println("Не указан идефикатор задачи!");
                     break;
                 case "print":
                     com.printXML();
-                    break;
-                case "test":
-                    com.test();
                     break;
                 case "stop":
                     break;
