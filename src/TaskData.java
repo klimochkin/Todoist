@@ -12,13 +12,13 @@ public class TaskData {
         enum eStatus {new_task, in_progress, done};
         //------------------------------------------------------------------------------------------------------------------------
         private int id;                 // уникальный номер
-        private String caption;           // заголовок
+        private String caption;         // заголовок
         private String description;     // Описание
         private int priority;           // Важность
         private String create;          // Дата создания
-        private String deadline;          // Планируемая дата завершения
+        private String deadline;        // Планируемая дата завершения
         private eStatus status;         // Статус
-        private String complete;          // фактическая дата завершения
+        private String complete;        // Фактическая дата завершения
 
         //------------------------------------------------------------------------------------------------------------------------
 
@@ -55,11 +55,4 @@ public class TaskData {
         @XmlElement(name="Complete")
         public void setComplete(String complete) { this.complete = complete; }
 
-
-        @Override
-        public boolean equals(Object obj){
-
-
-                return false;
-        }
 }

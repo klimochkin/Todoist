@@ -12,7 +12,6 @@ public class ContainerTask {
 
    @XmlElementWrapper(name = "ToDoList")
    private List<TaskData> taskList;
-  // private int id;
 
    public List<TaskData> getTaskList() { return taskList; }
 
@@ -30,7 +29,5 @@ public class ContainerTask {
         taskList.add(task);
 
         System.out.println("Добавлена задача №"+task.getId());
-        if(task.getId()==-1)
-            System.out.println("не удалось присвоить идефикатор");
     }
 }
